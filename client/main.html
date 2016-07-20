@@ -15,7 +15,7 @@
             <span>Live Berlin Apartment Map</span>
             <br>
             <p ng-show="liveAdded > 0" class="live-info">
-                Added {{liveAdded}} offers since you opened the page
+                Added {{liveAdded}} offer<span ng-show="liveAdded > 1">s</span> since you opened the page
                 (the last one <span am-time-ago="lastChange"></span>).
             </p>
         </div>
