@@ -1,0 +1,34 @@
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Live Berlin Appartment Map</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-material/1.0.9/angular-material.min.css">
+    <link rel="stylesheet" href="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+    <script src="https://npmcdn.com/leaflet@0.7.7/dist/leaflet.js"></script>
+</head>
+
+<body ng-app="flatmap" ng-controller="MapCtrl" layout="column">
+    <md-toolbar>
+        <div class="header">
+            <span>Live Berlin Appartment Map</span>
+        </div>
+    </md-toolbar>
+    <md-content>
+        <leaflet defaults="mapDefaults" layers="mapLayers" markers="mapMarkers" lf-center="mapCenter" height="100%" width="100%"></leaflet>
+    </md-content>
+    <md-toolbar class="padding footer">
+        <p>
+            The size corresponds to the rent and the opacity decreases over time, while the most recent offers are coloured.
+        </p>
+        <span>
+            <a href="https://twitter.com/gntrm" target="_blank">
+                <i class="fa fa-twitter-square fa-2x"></i>
+            </a>
+            <a href="https://github.com/jgontrum" target="_blank">
+                <i class="fa fa-github-square fa-2x"></i>
+            </a>
+        </span>
+        <!-- <md-slider flex min="10" max="2000" ng-model="limit"></md-slider> -->
+        <!-- <md-icon md-svg-icon="content:ic_clear_24px"></md-icon> -->
+    </md-toolbar>
+</body>
