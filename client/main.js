@@ -42,15 +42,10 @@ angular.module('flatmap', [
 
         $scope.mapMarkers = {};
 
-        console.log("Loaded");
-
         $scope.subscribe('immos', () => [400], {
             onReady: () => {
-                console.log("Getting Data...");
                 var cursor = Immos.find({});
                 if (!cursor.count()) return;
-
-                console.log("Processing new data...");
 
                 cursor.forEach(row => {
                     var classes = "marker-icon ";
