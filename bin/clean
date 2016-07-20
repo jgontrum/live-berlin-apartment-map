@@ -1,0 +1,5 @@
+#!/bin/bash
+rm -rf ../.meteor/local/bundler-cache
+rm -rf ../.meteor/local/cordova-build
+rm -rf ../.meteor/local/isopacks
+rm -rf ../.meteor/local/plugin-cache

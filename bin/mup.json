@@ -1,0 +1,25 @@
+{
+    "servers": [{
+        "host": "map.instaflat.xyz",
+        "username": "root",
+        "pem": "~/.ssh/id_rsa"
+    }],
+    "setupMongo": true,
+    "setupNode": true,
+    "nodeVersion": " 0.10.46",
+    "setupPhantom": true,
+    "enableUploadProgressBar": true,
+    "appName": "instaflat",
+    "app": "../",
+    "env": {
+        "PORT": 80,
+        "CLUSTER_WORKERS_COUNT": "auto",
+        "MOBILE_DDP_URL": "http://map.instaflat.xyz:80",
+        "MOBILE_ROOT_URL": "http://map.instaflat.xyz:80",
+        "DDP_DEFAULT_CONNECTION_URL": "http://map.instaflat.xyz:80"
+    },
+    "deployCheckWaitTime": 30,
+    "buildOptions": {
+        "debug": true
+    }
+}
