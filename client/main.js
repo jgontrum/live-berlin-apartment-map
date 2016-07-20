@@ -63,7 +63,7 @@ angular.module('flatmap', [
             alpha = Math.min(1.0, 1.5 / timeDelta);
             alpha = Math.max(0.2, alpha);
 
-            if (timeDelta < 12.0) {
+            if (timeDelta < 3.0) {
                 classes += "new flash ";
 
                 if (row.createdAt.getTime() > $scope.startTime.getTime()) {
