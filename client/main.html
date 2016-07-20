@@ -11,12 +11,12 @@
 
 <body ng-app="flatmap" ng-controller="MapCtrl" layout="column">
     <md-toolbar>
-        <div class="header">
+        <div class="header" ngCloak>
             <span>Live Berlin Apartment Map</span>
             <br>
             <span ng-show="liveAdded > 0" class="live-info">
-                Added {{liveAdded}} offers since you opened the page.
-                The last one <span am-time-ago="lastChange"></span>.
+                Added {{liveAdded}} offers since you opened the page
+                (the last one <span am-time-ago="lastChange"></span>).
             </span>
         </div>
     </md-toolbar>
