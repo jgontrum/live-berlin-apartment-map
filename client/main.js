@@ -3,11 +3,14 @@ import angularMeteor from 'angular-meteor';
 import ngMaterial from 'angular-material';
 import ngAnimate from 'angular-animate';
 import 'angular-leaflet-directive';
+import 'angular-moment';
+import 'moment';
 
 angular.module('flatmap', [
         angularMeteor,
         ngMaterial,
         ngAnimate,
+        'angularMoment',
         'leaflet-directive'
     ])
     .config(['$mdThemingProvider', '$logProvider', ($mdThemingProvider, $logProvider) => {
@@ -19,7 +22,9 @@ angular.module('flatmap', [
     }])
     .controller('MapCtrl', ['$scope', '$reactive', ($scope, $reactive) => {
         $reactive(this).attach($scope);
-        var now = new Date();
+        $scope.liveAdded = 0;
+        $scope.startTime = new Date();
+        $scope.lastChange = new Date();
 
         $scope.mapCenter = {
             lat: 52.509087,
@@ -38,47 +43,65 @@ angular.module('flatmap', [
                     }
                 }
             }
-        }
+        };
 
+        // Map from an id to marker properties.
+        // Updates to the object are automatically added to the map.
         $scope.mapMarkers = {};
 
-        $scope.subscribe('immos', () => [400], {
+        var processImmo = (row) => {
+            var classes = "animated marker-icon ";
+            var now = new Date();
+
+            var rentScore = Math.max(row.rent, row.totalRent) / 600;
+
+            var size = 36 * rentScore;
+            size = Math.min(72, size);
+            size = Math.max(8, size);
+
+            var timeDelta = Math.abs(now.getTime() - row.createdAt.getTime()) / 36e5;
+            alpha = Math.min(1.0, 1.5 / timeDelta);
+            alpha = Math.max(0.2, alpha);
+
+            if (timeDelta < 12.0) {
+                classes += "new flash ";
+
+                if (row.createdAt.getTime() > $scope.startTime.getTime()) {
+                    classes += "live ";
+                    $scope.liveAdded += 1;
+                }
+            } else {
+                classes += "fadeIn "
+            }
+
+            return {
+                lat: row.geocoding.lat,
+                lng: row.geocoding.lng,
+                icon: {
+                    type: 'div',
+                    iconSize: [10, 0],
+                    html: '<div class="' +
+                        classes + '" style="font-size: ' +
+                        size + 'pt; color: rgba(255, 255, 255, ' +
+                        alpha + ')">&#8226;</div>',
+                    popupAnchor: [0, 0],
+                    focus: false,
+                    draggable: false,
+                    clickable: false
+                }
+            }
+        };
+
+        $scope.subscribe('immos', () => [500], {
             onReady: () => {
                 var cursor = Immos.find({});
                 if (!cursor.count()) return;
 
-                cursor.forEach(row => {
-                    var classes = "marker-icon ";
-
-                    var rentScore = Math.max(row.rent, row.totalRent) / 600;
-
-                    var size = 36 * rentScore;
-                    size = Math.min(72, size);
-                    size = Math.max(8, size);
-
-                    var timeDelta = Math.abs(now.getTime() - row.createdAt.getTime()) / 36e5;
-                    alpha = Math.min(1.0, 1.5 / timeDelta);
-                    alpha = Math.max(0.2, alpha);
-
-                    if (timeDelta < 2.0) {
-                        classes += "new ";
-                    }
-
-                    $scope.mapMarkers[row._id._str] = {
-                        lat: row.geocoding.lat,
-                        lng: row.geocoding.lng,
-                        icon: {
-                            type: 'div',
-                            iconSize: [10, 0],
-                            html: '<div class="' +
-                                classes + '" style="font-size: ' +
-                                size + 'pt; color: rgba(255, 255, 255, ' +
-                                alpha + ')">&#8226;</div>',
-                            popupAnchor: [0, 0],
-                            focus: false,
-                            draggable: false,
-                            clickable: false
-                        }
+                cursor.observeChanges({
+                    added: (id, row) => {
+                        var result = processImmo(row);
+                        $scope.mapMarkers[id._str] = result;
+                        $scope.lastChange = new Date();
                     }
                 });
             }
