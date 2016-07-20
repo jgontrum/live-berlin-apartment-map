@@ -2,7 +2,7 @@ md-content {
     height: 100% !important;
 }
 md-toolbar {
-    height: 80px !important;
+    min-height: 80px !important;
 }
 body {
     background-color: #2e2d2c;
@@ -30,7 +30,7 @@ a {
 }
 .live-info {
     font-size: 11pt;
-    margin-top: -20px;
+    margin-top: 10px
 }
 .leaflet-div-icon {
     border: 0 !important;

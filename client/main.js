@@ -27,9 +27,9 @@ angular.module('flatmap', [
         $scope.lastChange = new Date();
 
         $scope.mapCenter = {
-            lat: 52.509087,
+            lat: 52.469890,
             lng: 13.404694,
-            zoom: 13
+            zoom: 11
         };
 
         $scope.mapLayers = {
